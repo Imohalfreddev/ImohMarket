@@ -3,6 +3,7 @@
     --bg-light: #f8fafc; --text-dark: #0f172a;
     --card-bg: #ffffff; --border: #e2e8f0;
     --danger: #ef4444; --success: #10b981;
+    --nav-height: 61px;
 }
 [data-theme="dark"] {
     --primary: #3b82f6; --primary-dark: #60a5fa;
@@ -15,9 +16,6 @@ body {
     background-color: var(--bg-light); 
     color: var(--text-dark); 
     line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
@@ -26,7 +24,6 @@ nav {
     background: var(--card-bg); 
     padding: 1rem 0; 
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
 }
 
 .nav-content { display: flex; justify-content: space-between; align-items: center; }
@@ -80,9 +77,9 @@ nav {
     color: var(--text-dark); cursor: pointer; font-size: 0.9rem; font-weight: bold; outline: none;
 }
 
-/* Auth Container */
+/* Auth wrapper — centers form in remaining screen space below nav */
 .auth-wrapper {
-    flex: 1;
+    min-height: calc(100vh - var(--nav-height));
     display: flex;
     align-items: center;
     justify-content: center;
