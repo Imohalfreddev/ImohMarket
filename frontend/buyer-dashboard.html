@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard | ImohMarket</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:1rem; align-items: center;"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <section style="margin-bottom: 3rem;">
+            <h2>Welcome back to ImohMarket!</h2>
+            <p style="color: #64748b; margin-top: 0.5rem;">Manage your shopping and view your recent activity below.</p>
+        </section>
+
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            
+            <div class="card" style="padding: 2rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🛒</div>
+                <h3>My Shopping Cart</h3>
+                <p style="margin: 1rem 0; color: #64748b;">You have items waiting for checkout.</p>
+                <a href="cart.html" class="btn">View Cart</a>
+            </div>
+
+            <div class="card" style="padding: 2rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🛍️</div>
+                <h3>Browse Market</h3>
+                <p style="margin: 1rem 0; color: #64748b;">Explore the latest premium inventory.</p>
+                <a href="products.html" class="btn">Start Shopping</a>
+            </div>
+
+            <div class="card" style="padding: 2rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">👤</div>
+                <h3>Account Settings</h3>
+                <p style="margin: 1rem 0; color: #64748b;">Update your profile or change password.</p>
+                <a href="profile.html" class="btn" style="background: var(--text-dark);">Edit Profile</a>
+            </div>
+
+        </div>
+
+        <section style="margin-top: 4rem;">
+            <h3>Recent Orders</h3>
+            <div class="auth-container" style="max-width: 100%; margin: 1.5rem 0; text-align: center; border-style: dashed;">
+                <p style="color: #64748b;">Your order history will appear here once you make a purchase.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

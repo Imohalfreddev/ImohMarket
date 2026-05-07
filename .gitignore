@@ -1,0 +1,31 @@
+# --- Python & Environment ---
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Databases & Secrets ---
+# We ignore the local SQLite file and the .env file with your passwords
+*.db
+*.sqlite3
+.env
+
+# --- OS Specific Junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Project Specific ---
+# Ignore the actual images uploaded, but we will keep the folder
+backend/uploads/*
+# This line ensures the 'uploads' folder itself IS tracked even if empty
+!backend/uploads/.gitkeep
+
+# --- IDEs ---
+.vscode/
+.idea/

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImohMarket | Welcome</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:1rem; align-items: center;"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container" style="text-align: center; padding-top: 4rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to ImohMarket</h1>
+        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: #475569;">The premier destination for premium goods.</p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="signup.html" class="btn" style="width: auto;">Start Shopping</a> 
+            <a href="signup.html" class="btn" style="width: auto; background: transparent; color: var(--text-dark); border: 2px solid var(--primary) !important;">Become a Seller</a>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

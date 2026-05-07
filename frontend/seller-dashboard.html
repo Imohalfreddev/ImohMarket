@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | ImohMarket</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:1rem; align-items: center;"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <h2>Seller Dashboard</h2>
+        
+        <div class="auth-container" style="margin: 2rem 0; max-width: 100%;">
+            <h3>Add New Product</h3><br>
+            
+            <form onsubmit="addProduct(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="number" id="price" class="form-control" step="0.01" required>
+                </div>
+                
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Product Image</label>
+                    <input type="file" id="image_file" class="form-control" accept="image/*" required>
+                </div>
+                
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Description</label>
+                    <textarea id="description" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="grid-column: span 2;">Upload to Marketplace</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
