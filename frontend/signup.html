@@ -11,14 +11,15 @@
         <div class="container nav-content">
             <a href="index.html" class="nav-brand">ImohMarket</a>
             <div class="nav-links">
-                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
+                <button onclick="toggleTheme()" class="theme-toggle">🌓</button>
             </div>
         </div>
     </nav>
 
+    <!-- The wrapper handles the centering -->
     <div class="auth-wrapper">
         <div class="auth-container">
-            <h2>Create Account</h2><br>
+            <h2>Create Account</h2>
             <form onsubmit="signup(event)">
                 <div class="form-group">
                     <label>Full Name</label>
@@ -32,12 +33,12 @@
                     <label>Email</label>
                     <input type="email" id="email" class="form-control" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label>Password</label>
                     <input type="password" id="password" class="form-control" required>
                     <button type="button" id="togglePwd" class="pwd-toggle" onclick="togglePassword('password', 'togglePwd')">SHOW</button>
                 </div>
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label>Confirm Password</label>
                     <input type="password" id="confirm-password" class="form-control" required>
                     <button type="button" id="toggleConfirmPwd" class="pwd-toggle" onclick="togglePassword('confirm-password', 'toggleConfirmPwd')">SHOW</button>
