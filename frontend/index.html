@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ImohMarket | Welcome</title>
+    <title>ImohMarket | Elite Automotive Exchange</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,21 +12,34 @@
             <a href="index.html" class="nav-brand">ImohMarket</a>
             <div class="nav-links">
                 <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
-                <div id="nav-auth" style="display:inline-flex; gap:1rem; align-items: center;"></div>
+                <div id="nav-auth"></div>
             </div>
         </div>
     </nav>
-    
-    <main class="container" style="text-align: center; padding-top: 4rem;">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to ImohMarket</h1>
-        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: #475569;">The premier destination for premium goods.</p>
-        
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-            <a href="signup.html" class="btn" style="width: auto;">Start Shopping</a> 
-            <a href="signup.html" class="btn" style="width: auto; background: transparent; color: var(--text-dark); border: 2px solid var(--primary) !important;">Become a Seller</a>
+
+    <header class="hero">
+        <div class="container" style="text-align: center; padding: 100px 20px;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Welcome to ImohMarket</h1>
+            <p style="font-size: 1.5rem; color: #64748b; margin-bottom: 2.5rem;">The premier destination for elite automotive trade.</p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                <a href="products.html" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Inventory</a>
+                <a href="signup.html" class="btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem; border: 2px solid var(--primary); border-radius: 8px; text-decoration: none; color: var(--text);">List a Vehicle</a>
+            </div>
         </div>
+    </header>
+
+    <main class="container">
+        <section style="margin-top: 4rem;">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Featured Listings</h2>
+            <div id="product-grid" class="grid">
+                </div>
+        </section>
     </main>
 
     <script src="app.js"></script>
+    <script>
+        // Load featured cars on the home page automatically
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
 </body>
 </html>

@@ -16,6 +16,12 @@ class Token(BaseModel):
 
 class ProductBase(BaseModel):
     name: str
+    make: str
+    model: str
+    year: int
+    mileage: int
+    fuel_type: str
+    transmission: str
     price: float
     description: str
     image_url: str
