@@ -1,52 +1,110 @@
-# 🏎️ ImohMarket | Elite Automotive Exchange
+/**
+ * ImohMarket | Elite Automotive Exchange
+ * Core Frontend Logic
+ */
 
-**The premier destination for high-end, production-ready automotive trade.**
+// 1. PRODUCTION API CONFIGURATION
+const API_URL = "https://imohmarket.onrender.com";
 
-ImohMarket is a sophisticated, full-stack marketplace platform engineered specifically for the luxury vehicle industry. It provides a secure, high-performance environment where elite sellers can showcase inventory and serious buyers can browse a curated showroom with confidence.
+// 2. STATE MANAGEMENT
+const state = {
+    user: JSON.parse(localStorage.getItem('imoh_user')) || null,
+    token: localStorage.getItem('imoh_token') || null,
+    cars: []
+};
 
----
+// 3. CORE API FUNCTIONS
+const api = {
+    // Fetch all car listings
+    async getCars() {
+        try {
+            const response = await fetch(`${API_URL}/vehicles`);
+            if (!response.ok) throw new Error('Failed to fetch inventory');
+            return await response.json();
+        } catch (err) {
+            console.error('API Error:', err);
+            return [];
+        }
+    },
 
-## 💎 Core Features
+    // Handle Login
+    async login(email, password) {
+        try {
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('imoh_token', data.access_token);
+                localStorage.setItem('imoh_user', JSON.stringify(data.user));
+                window.location.reload(); // Refresh to update UI
+            } else {
+                alert(data.detail || 'Login failed');
+            }
+        } catch (err) {
+            alert('Server connection failed. Is the backend awake?');
+        }
+    }
+};
 
-- **🚀 Dynamic Automotive Showroom:** A high-fidelity frontend designed to load and display vehicle inventory in real-time, optimized for high-resolution vehicle imagery.
-- **🛠️ Vehicle-Specific Metadata:** Deep integration for car-specific data including **Make, Model, Year, Mileage, Fuel Type,** and **Transmission**.
-- **🔐 Secure Role-Switching:** Dual-role architecture allowing users to toggle between **Buyer** and **Seller** profiles seamlessly, with distinct dashboard experiences.
-- **🛡️ Production-Grade Security:** Robust authentication powered by **JWT (JSON Web Tokens)**, salted Bcrypt password hashing, and secure environment variable isolation.
-- **🎨 Premium UI/UX:** A mobile-first, responsive interface featuring a native **Dark Mode** toggle and clean, professional typography.
-- **🛒 Relational Persistence:** A specialized PostgreSQL backend ensuring user carts and listing data remain consistent across sessions.
+// 4. UI RENDERING LOGIC
+const ui = {
+    renderShowroom(cars) {
+        const container = document.getElementById('car-container');
+        if (!container) return;
 
----
+        if (cars.length === 0) {
+            container.innerHTML = `<p class="no-cars">No elite vehicles currently listed. Check back soon!</p>`;
+            return;
+        }
 
-## 🛠️ Technical Architecture
+        container.innerHTML = cars.map(car => `
+            <div class="car-card">
+                <div class="car-image">
+                    <img src="${car.image_url || 'https://via.placeholder.com/400x250?text=Premium+Auto'}" alt="${car.make}">
+                </div>
+                <div class="car-info">
+                    <h3>${car.year} ${car.make} ${car.model}</h3>
+                    <p class="car-price">$${car.price.toLocaleString()}</p>
+                    <div class="car-specs">
+                        <span>⛽ ${car.fuel_type}</span>
+                        <span>🛣️ ${car.mileage.toLocaleString()} miles</span>
+                    </div>
+                    <button class="view-btn" onclick="viewDetails('${car.id}')">View Listing</button>
+                </div>
+            </div>
+        `).join('');
+    },
 
-### **Backend (API Layer)**
-- **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Asynchronous Python)
-- **Database:** [PostgreSQL](https://www.postgresql.org/) (Production relational storage)
-- **ORM:** SQLAlchemy 2.0
-- **Validation:** Pydantic models for strict data integrity.
+    updateAuthDisplay() {
+        const authSection = document.getElementById('auth-links');
+        if (!authSection) return;
 
-### **Frontend (UI Layer)**
-- **Language:** HTML5, CSS3, Vanilla JavaScript (ES6+)
-- **State Management:** LocalStorage-based authentication persistence.
-- **Media Handling:** Multipart/form-data for high-quality vehicle uploads.
+        if (state.token) {
+            authSection.innerHTML = `
+                <span>Welcome, ${state.user.full_name}</span>
+                <button onclick="logout()">Logout</button>
+            `;
+        }
+    }
+};
 
----
+// 5. INITIALIZATION
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log("🏎️ ImohMarket Initialized | Connecting to:", API_URL);
+    
+    ui.updateAuthDisplay();
+    
+    // Load Inventory
+    const inventory = await api.getCars();
+    ui.renderShowroom(inventory);
+});
 
-## 📂 Project Structure
-
-```text
-ImohMarket/
-├── backend/
-│   ├── app/
-│   │   ├── routes/      # Specialized API endpoints (Vehicles, Auth, Users)
-│   │   ├── models.py    # SQLAlchemy Vehicle & User schemas
-│   │   ├── schemas.py   # Data validation & response shapes
-│   │   └── main.py      # FastAPI entry point
-│   ├── uploads/         # Local vehicle image storage
-│   ├── .env             # Private credentials (Protected)
-│   └── requirements.txt # Manifest of dependencies
-├── frontend/
-│   ├── index.html       # Showroom landing page
-│   ├── app.js           # Core logic & Inventory API integration
-│   └── style.css        # Premium branding & theme variables
-└── README.md
+// Helper for Global Access
+window.logout = () => {
+    localStorage.clear();
+    window.location.reload();
+};
