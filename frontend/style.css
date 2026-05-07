@@ -16,7 +16,6 @@ body {
     color: var(--text-dark); 
     line-height: 1.6;
     min-height: 100vh;
-    position: relative;
 }
 
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
@@ -78,7 +77,7 @@ nav {
     color: var(--text-dark); cursor: pointer; font-size: 0.9rem; font-weight: bold; outline: none;
 }
 
-/* Auth Container — centered on screen */
+/* Auth Container — desktop: margin from top, centered horizontally */
 .auth-container { 
     max-width: 400px;
     width: calc(100% - 2rem);
@@ -86,10 +85,7 @@ nav {
     padding: 2rem; 
     border-radius: 8px; 
     border: 1px solid var(--border);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 3rem auto;
 }
 
 .hidden { display: none !important; }
@@ -132,11 +128,22 @@ nav {
     width: auto;
 }
 
-/* Mobile */
+/* ===== MOBILE ===== */
 @media (max-width: 480px) {
+
+    /* Center auth form vertically on mobile since it fits the screen */
+    body {
+        position: relative;
+    }
     .auth-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
         padding: 1.5rem;
         border-radius: 6px;
+        width: calc(100% - 2rem);
     }
 
     .btn {
