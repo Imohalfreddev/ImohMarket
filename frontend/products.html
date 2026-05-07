@@ -1,3 +1,45 @@
-<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="style.css"><title>Marketplace</title></head><body onload="loadProducts()">
-    <nav><div class="container nav-content"><a href="index.html" class="nav-brand">ImohMarket</a><div class="nav-links"><button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button><div id="nav-auth" style="display:inline-flex; gap:1rem;"></div></div></div></nav>
-    <main class="container"><h2 style="margin-bottom: 2rem;">Available Inventory</h2><div class="grid" id="product-grid"></div></main><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace | ImohMarket</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .products-wrapper {
+            padding: 2rem 1rem;
+        }
+        .products-wrapper h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        @media (max-width: 480px) {
+            .products-wrapper h2 {
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body onload="loadProducts()">
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:1rem;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container products-wrapper">
+        <h2>Available Inventory</h2>
+        <div class="grid" id="product-grid"></div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

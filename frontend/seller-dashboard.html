@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard | ImohMarket</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-wrapper {
+            min-height: calc(100vh - var(--nav-height));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .dashboard-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 600px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -16,16 +46,17 @@
             </div>
         </div>
     </nav>
-    <main class="container">
-        <h2>Seller Dashboard</h2>
-        <div class="auth-container" style="max-width: 800px; margin-top: 2rem;">
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-container">
+            <h2>Seller Dashboard</h2><br>
             <h3>List a New Vehicle</h3><br>
             <form onsubmit="addProduct(event)">
                 <div class="form-group">
                     <label>Listing Title</label>
                     <input type="text" id="name" class="form-control" placeholder="e.g. 2022 Luxury Sports Sedan" required>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="two-col">
                     <div class="form-group">
                         <label>Make (Brand)</label>
                         <input type="text" id="make" class="form-control" placeholder="Toyota" required>
@@ -74,7 +105,8 @@
                 <button type="submit" class="btn">Post Listing</button>
             </form>
         </div>
-    </main>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
