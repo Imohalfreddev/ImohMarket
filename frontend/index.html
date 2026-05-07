@@ -18,12 +18,12 @@
     </nav>
 
     <header class="hero">
-        <div class="container" style="text-align: center; padding: 100px 20px;">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Welcome to ImohMarket</h1>
-            <p style="font-size: 1.5rem; color: #64748b; margin-bottom: 2.5rem;">The premier destination for elite automotive trade.</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center;">
-                <a href="products.html" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Inventory</a>
-                <a href="signup.html" class="btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem; border: 2px solid var(--primary); border-radius: 8px; text-decoration: none; color: var(--text);">List a Vehicle</a>
+        <div class="container hero-content">
+            <h1 class="hero-title">Welcome to ImohMarket</h1>
+            <p class="hero-subtitle">The premier destination for elite automotive trade.</p>
+            <div class="hero-buttons">
+                <a href="products.html" class="btn hero-btn">Explore Inventory</a>
+                <a href="signup.html" class="btn-outline hero-btn">List a Vehicle</a>
             </div>
         </div>
     </header>
@@ -31,14 +31,12 @@
     <main class="container">
         <section style="margin-top: 4rem;">
             <h2 style="text-align: center; margin-bottom: 3rem;">Featured Listings</h2>
-            <div id="product-grid" class="grid">
-                </div>
+            <div id="product-grid" class="grid"></div>
         </section>
     </main>
 
     <script src="app.js"></script>
     <script>
-        // Load featured cars on the home page automatically
         document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 </body>

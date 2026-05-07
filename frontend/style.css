@@ -46,7 +46,14 @@ nav { background: var(--card-bg); padding: 1rem 0; border-bottom: 1px solid var(
     position: absolute; right: 10px; top: 38px; background: none; border: none; 
     color: var(--text-dark); cursor: pointer; font-size: 0.9rem; font-weight: bold; outline: none;
 }
-.auth-container { max-width: 400px; margin: 4rem auto; background: var(--card-bg); padding: 2rem; border-radius: 8px; border: 1px solid var(--border); }
+.auth-container { 
+    max-width: 400px; 
+    margin: 4rem auto; 
+    background: var(--card-bg); 
+    padding: 2rem; 
+    border-radius: 8px; 
+    border: 1px solid var(--border); 
+}
 .hidden { display: none !important; }
 
 /* Toast Notifications */
@@ -60,3 +67,94 @@ nav { background: var(--card-bg); padding: 1rem 0; border-bottom: 1px solid var(
 .toast.success { background: var(--success); }
 .toast.error { background: var(--danger); }
 .toast.info { background: var(--primary); }
+
+/* ===== HERO SECTION ===== */
+.hero-content {
+    text-align: center;
+    padding: 100px 20px;
+}
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: #64748b;
+    margin-bottom: 2.5rem;
+}
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.hero-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+.btn-outline {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    text-align: center;
+}
+.btn-outline:hover {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 480px) {
+    .auth-container {
+        max-width: 100%;
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 6px;
+    }
+
+    .btn {
+        padding: 0.85rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Prevents iOS auto-zoom when tapping input fields */
+    .form-control {
+        font-size: 1rem;
+        padding: 0.85rem;
+    }
+
+    nav {
+        margin-bottom: 1rem;
+    }
+
+    .hero-content {
+        padding: 50px 16px;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .hero-btn, .btn-outline {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .toast {
+        min-width: unset;
+        width: calc(100vw - 2rem);
+        right: 1rem;
+        left: 1rem;
+    }
+}
