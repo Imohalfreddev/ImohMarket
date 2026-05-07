@@ -5,20 +5,36 @@
     --danger: #ef4444; --success: #10b981;
     --nav-height: 61px;
 }
+
 [data-theme="dark"] {
     --primary: #3b82f6; --primary-dark: #60a5fa;
     --bg-light: #0f172a; --text-dark: #f1f5f9;
     --card-bg: #1e293b; --border: #334155;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; transition: background-color 0.3s, color 0.3s; }
 
-body { 
+/* Added overflow-x to prevent mobile horizontal scrolling */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Inter', system-ui, sans-serif; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+html, body { 
     background-color: var(--bg-light); 
     color: var(--text-dark); 
     line-height: 1.6;
+    overflow-x: hidden; /* Crucial for mobile sizing */
+    width: 100%;
 }
 
-.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+.container { 
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 1rem; 
+}
 
 nav { 
     background: var(--card-bg); 
@@ -64,7 +80,11 @@ nav {
 .btn-outline:hover { background: var(--primary); color: #ffffff; }
 
 /* Forms */
-.form-group { margin-bottom: 1.2rem; position: relative; }
+.form-group { 
+    margin-bottom: 1.2rem; 
+    position: relative; 
+    width: 100%;
+}
 .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
 .form-control { 
     width: 100%; padding: 0.75rem; border: 1px solid var(--border); 
@@ -72,27 +92,40 @@ nav {
     font-size: 1rem;
 }
 .form-control:focus { border-color: var(--primary); }
+
+/* Adjusted toggle to stay perfectly aligned regardless of screen size */
 .pwd-toggle {
-    position: absolute; right: 10px; top: 38px; background: none; border: none; 
-    color: var(--text-dark); cursor: pointer; font-size: 0.9rem; font-weight: bold; outline: none;
+    position: absolute; 
+    right: 12px; 
+    bottom: 12px; /* Aligns based on the input bottom rather than top */
+    background: none; 
+    border: none; 
+    color: var(--text-dark); 
+    cursor: pointer; 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+    outline: none;
 }
 
-/* Auth wrapper — centers form in remaining screen space below nav */
+/* Auth wrapper — ensures perfect centering on all screens */
 .auth-wrapper {
     min-height: calc(100vh - var(--nav-height));
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 1rem;
+    padding: 1.5rem; /* Standardized padding */
+    box-sizing: border-box;
 }
 
 .auth-container { 
     width: 100%;
     max-width: 400px;
     background: var(--card-bg); 
-    padding: 2rem; 
+    padding: 2.5rem 2rem; 
     border-radius: 8px; 
     border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); /* Optional: slight shadow to separate from bg */
 }
 
 .hidden { display: none !important; }
@@ -137,9 +170,18 @@ nav {
 
 /* ===== MOBILE ===== */
 @media (max-width: 480px) {
+    /* Form Centering and Sizing Fixes */
+    .auth-wrapper {
+        padding: 1rem; /* Less padding on small screens to give form more room */
+        align-items: center; /* Ensures it stays centered vertically */
+    }
+
     .auth-container {
         padding: 1.5rem;
+        border: none; /* Often looks cleaner on mobile without a border */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
+    
     .btn {
         padding: 0.85rem 1rem;
         font-size: 1rem;
@@ -148,6 +190,11 @@ nav {
         font-size: 1rem;
         padding: 0.85rem;
     }
+    .pwd-toggle {
+        bottom: 14px; /* Adjust slightly for mobile input padding */
+    }
+
+    /* Hero Section Fixes */
     .hero-content {
         padding: 50px 16px;
     }
