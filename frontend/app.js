@@ -197,6 +197,7 @@ async function loadProducts() {
 }
 
 // --- Dynamic Navigation Logic ---
+// --- Dynamic Navigation Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const navAuth = document.getElementById('nav-auth');
     if (navAuth) {
@@ -207,10 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
             navAuth.innerHTML = `
                 <a href="products.html">Showroom</a> 
                 <a href="${dashLink}">Dashboard</a> 
-                <a onclick="switchRole()" style="cursor: pointer; color: var(--primary); font-weight: bold;">${switchText}</a>
-                <a onclick="logout()" style="cursor: pointer;">Logout</a>
+                
+                <a onclick="switchRole()" class="btn-outline" style="cursor: pointer; width: auto; padding: 0.4rem 1rem; font-size: 0.9rem; margin: 0 0.5rem;">${switchText}</a>
+                
+                <a onclick="logout()" style="cursor: pointer; color: var(--danger);">Logout</a>
             `;
         } 
-        // If NOT logged in, it simply leaves the hardcoded "Login" and "Sign Up" buttons exactly as they are.
     }
 });
