@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .dashboard-wrapper {
-            min-height: calc(100vh - var(--nav-height));
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
         }
         .dashboard-container {
             width: 100%;
@@ -21,32 +19,21 @@
             border-radius: 8px;
             border: 1px solid var(--border);
         }
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        @media (max-width: 600px) {
-            .two-col {
-                grid-template-columns: 1fr;
-            }
-            .dashboard-container {
-                padding: 1.5rem;
-            }
+        @media (max-width: 480px) {
+            .dashboard-container { padding: 1.5rem; }
         }
     </style>
 </head>
-<body>
+<body class="scroll-page">
     <nav>
         <div class="container nav-content">
             <a href="index.html" class="nav-brand">ImohMarket</a>
             <div class="nav-links">
-                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem; outline: none;">🌓</button>
+                <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;outline:none;">🌓</button>
                 <div id="nav-auth"></div>
             </div>
         </div>
     </nav>
-
     <div class="dashboard-wrapper">
         <div class="dashboard-container">
             <h2>Seller Dashboard</h2><br>
@@ -106,7 +93,6 @@
             </form>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>

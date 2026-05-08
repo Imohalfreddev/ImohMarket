@@ -3,119 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>My Profile | ImohMarket</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        nav {
-            width: 100%;
-            padding: 14px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .auth-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px 16px;
-        }
-
-        .auth-container {
-            width: 100%;
-            max-width: 440px;
-        }
-
-        .form-control {
-            font-size: 16px; /* prevents iOS zoom on tap */
-        }
-
-        .btn {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        @media (max-width: 480px) {
-            .auth-wrapper {
-                align-items: flex-start;
-                padding-top: 32px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-<body>
-
+<body class="auth-page">
     <nav>
-        <div class="nav-content">
+        <div class="container nav-content">
             <a href="index.html" class="nav-brand">ImohMarket</a>
             <div class="nav-links">
-                <button onclick="toggleTheme()"
-                    style="background:none; border:none; cursor:pointer; font-size:1.2rem;">
-                    🌓
-                </button>
-                <div id="nav-auth" style="display:inline-flex; gap:1rem;"></div>
+                <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex;gap:1rem;"></div>
             </div>
         </div>
     </nav>
-
-    <main class="auth-wrapper">
+    <div class="auth-wrapper">
         <div class="auth-container">
-
-            <h2>Account Settings</h2>
-            <br>
-            <h3>Update Profile</h3>
-
+            <h2>Account Settings</h2><br>
+            <h3>Update Profile</h3><br>
             <form onsubmit="updateProfile(event)">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" id="prof-username" class="form-control"
-                        autocomplete="username" required>
+                    <input type="text" id="prof-username" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="prof-email" class="form-control"
-                        autocomplete="email" required>
+                    <input type="email" id="prof-email" class="form-control" required>
                 </div>
                 <button type="submit" class="btn">Save Changes</button>
             </form>
-
-            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--border);">
-
-            <div class="danger-zone">
-                <h3 style="color: var(--danger);">Danger Zone</h3>
-                <p style="margin: 1rem 0; font-size: 0.9rem;">Once deleted, there is no going back.</p>
-                <button onclick="deleteAccount()" class="btn btn-danger">
-                    Delete Account Permanently
-                </button>
-            </div>
-
+            <hr style="margin:2rem 0;border:0;border-top:1px solid var(--border);">
+            <h3 style="color:var(--danger);">Danger Zone</h3>
+            <p style="margin:1rem 0;font-size:0.9rem;">Once deleted, there is no going back.</p>
+            <button onclick="deleteAccount()" class="btn btn-danger">Delete Account Permanently</button>
         </div>
-    </main>
-
+    </div>
     <script src="app.js"></script>
-
 </body>
 </html>

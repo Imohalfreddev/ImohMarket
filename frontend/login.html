@@ -6,40 +6,35 @@
     <title>Login | ImohMarket</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="auth-page">
     <nav>
         <div class="container nav-content">
             <a href="index.html" class="nav-brand">ImohMarket</a>
             <div class="nav-links">
-                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button>
+                <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;">🌓</button>
             </div>
         </div>
     </nav>
-
-    <!-- The auth-wrapper uses Flexbox (from your CSS) to center this perfectly -->
     <div class="auth-wrapper">
         <div class="auth-container">
-            <h2>Sign In</h2>
-            <br>
+            <h2>Sign In</h2><br>
             <form onsubmit="login(event)">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" id="username" class="form-control" required>
                 </div>
-                <div class="form-group" style="position: relative;">
+                <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="password" class="form-control" required>
-                    <button type="button" id="togglePwd" class="pwd-toggle" onclick="togglePassword('password', 'togglePwd')">SHOW</button>
+                    <button type="button" id="togglePwd" class="pwd-toggle" onclick="togglePassword('password','togglePwd')">SHOW</button>
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
-            
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <a href="forgot-password.html" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
+            <div style="text-align:center;margin-top:1rem;">
+                <a href="forgot-password.html" style="color:var(--primary);text-decoration:none;">Forgot Password?</a>
             </div>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
