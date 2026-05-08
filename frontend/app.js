@@ -71,8 +71,6 @@ const getImageUrl = (url) => url.startsWith('http') ? url : `${API_URL}${url}`;
 async function login(e) {
     e.preventDefault();
     const formData = new FormData();
-    
-    // BULLETPROOF: Prevents crashes if IDs are missing
     const emailField = document.getElementById('email')?.value || '';
     const usernameField = document.getElementById('username')?.value || emailField;
     const passwordField = document.getElementById('password')?.value || '';
@@ -97,17 +95,12 @@ async function login(e) {
 
 async function signup(e) {
     e.preventDefault();
-    
     const password = document.getElementById('password')?.value || '';
     const confirmPassword = document.getElementById('confirm-password')?.value || password; 
     
-    if (password !== confirmPassword) { 
-        showToast("Passwords do not match!", "error"); 
-        return; 
-    }
+    if (password !== confirmPassword) { showToast("Passwords do not match!", "error"); return; }
 
     const emailInput = document.getElementById('email')?.value || '';
-
     const payload = { 
         full_name: document.getElementById('fullname')?.value || document.getElementById('fullName')?.value || 'User',
         username: document.getElementById('username')?.value || emailInput, 
@@ -122,7 +115,6 @@ async function signup(e) {
             headers: { 'Content-Type': 'application/json' }, 
             body: JSON.stringify(payload) 
         });
-        
         if (res.ok) { 
             showToast("Registration complete!", "success"); 
             setTimeout(() => window.location.href = 'login.html', 1500); 
@@ -197,21 +189,23 @@ async function loadProducts() {
 }
 
 // --- Dynamic Navigation Logic ---
-// --- Dynamic Navigation Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const navAuth = document.getElementById('nav-auth');
     if (navAuth) {
+        // Keeps the buttons in a neat row
+        navAuth.style.display = 'flex';
+        navAuth.style.gap = '0.5rem';
+        navAuth.style.alignItems = 'center';
+
         if (state.token) {
-            // IF LOGGED IN: Overwrite the hardcoded links with Dashboard/Logout
             const dashLink = state.role === 'seller' ? 'seller-dashboard.html' : 'buyer-dashboard.html';
             const switchText = state.role === 'buyer' ? 'Switch to Seller' : 'Switch to Buyer';
+            
             navAuth.innerHTML = `
-                <a href="products.html">Showroom</a> 
-                <a href="${dashLink}">Dashboard</a> 
-                
-                <a onclick="switchRole()" class="btn-outline" style="cursor: pointer; width: auto; padding: 0.4rem 1rem; font-size: 0.9rem; margin: 0 0.5rem;">${switchText}</a>
-                
-                <a onclick="logout()" style="cursor: pointer; color: var(--danger);">Logout</a>
+                <a href="products.html" class="btn-outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.9rem;">Showroom</a> 
+                <a href="${dashLink}" class="btn-outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.9rem;">Dashboard</a> 
+                <a onclick="switchRole()" class="btn" style="cursor: pointer; width: auto; padding: 0.4rem 1rem; font-size: 0.9rem;">${switchText}</a>
+                <a onclick="logout()" class="btn-outline" style="cursor: pointer; width: auto; padding: 0.4rem 1rem; font-size: 0.9rem; color: var(--danger); border-color: var(--danger) !important;">Logout</a>
             `;
         } 
     }
