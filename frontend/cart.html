@@ -1,3 +1,127 @@
-<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="style.css"><title>Your Cart</title></head><body onload="loadCart()">
-    <nav><div class="container nav-content"><a href="index.html" class="nav-brand">ImohMarket</a><div class="nav-links"><button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button><div id="nav-auth" style="display:inline-flex; gap:1rem;"></div></div></div></nav>
-    <main class="container" style="max-width: 800px;"><h2>Shopping Cart</h2><div id="cart-items" style="margin: 2rem 0;"></div><div style="font-size: 1.5rem; font-weight: bold; text-align: right; margin-bottom: 1.5rem;">Total: <span id="cart-total">$0.00</span></div><div style="text-align: right;"><button id="checkout-btn" class="btn" style="width: auto;" onclick="window.location.href='checkout.html'">Proceed to Checkout</button></div></main><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | ImohMarket</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-wrapper {
+            padding: 1.5rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .cart-item img {
+            width: 90px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .cart-item-info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cart-item-info .price {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+        .cart-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        .cart-qty button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--card-bg);
+            color: var(--text-dark);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-qty span {
+            min-width: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .cart-item-total {
+            font-weight: bold;
+            font-size: 0.95rem;
+            min-width: 70px;
+            text-align: right;
+            flex-shrink: 0;
+            color: var(--primary);
+        }
+        .cart-summary {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .cart-item img { width: 70px; height: 50px; }
+            .cart-item-info .name { font-size: 0.85rem; }
+            .cart-item-info .price { font-size: 0.8rem; }
+            .cart-item-total { font-size: 0.85rem; min-width: 55px; }
+            .cart-qty button { width: 26px; height: 26px; font-size: 0.9rem; }
+            .cart-total-row { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="scroll-page" onload="loadCart()">
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:0.5rem; align-items:center;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="cart-wrapper">
+        <h2 style="margin-bottom: 1.5rem;">Shopping Cart</h2>
+        <div id="cart-items"></div>
+        <div class="cart-summary">
+            <div class="cart-total-row">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button id="checkout-btn" class="btn" style="width: 100%; padding: 1rem; font-size: 1rem;" onclick="window.location.href='checkout.html'">
+                Proceed to Checkout
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
