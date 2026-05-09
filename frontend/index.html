@@ -27,7 +27,7 @@
             <p class="hero-subtitle">The premier destination for elite automotive trade.</p>
             <div class="hero-buttons">
                 <a href="products.html" class="btn hero-btn">Explore Inventory</a>
-                <a href="signup.html" class="btn-outline hero-btn">List a Vehicle</a>
+                <a href="#" class="btn-outline hero-btn" onclick="handleListVehicle()">List a Vehicle</a>
             </div>
         </div>
     </header>
@@ -43,6 +43,15 @@
     <script src="app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', loadProducts);
+
+        function handleListVehicle() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = 'list-vehicle.html';
+            } else {
+                window.location.href = 'signup.html';
+            }
+        }
     </script>
 </body>
 </html>
