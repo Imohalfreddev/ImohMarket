@@ -164,6 +164,7 @@ async function addProduct(e) {
     } else { 
         showToast('Failed to post vehicle.', 'error'); 
     }
+}
 
     const res = await fetch(`${API_URL}/products/`, { 
         method: 'POST', 
