@@ -15,36 +15,45 @@ def get_products(db: Session = Depends(database.get_db)):
 @router.post("/", response_model=schemas.ProductResponse)
 def create_product(
     name: str = Form(...),
+    make: str = Form(...),
+    model: str = Form(...),
+    year: int = Form(...),
+    mileage: int = Form(...),
+    fuel_type: str = Form(...),
+    transmission: str = Form(...),
     price: float = Form(...),
     description: str = Form(...),
     image: UploadFile = File(...),
-    db: Session = Depends(database.get_db), 
+    db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
     """Allow sellers to create a new product with an image upload."""
     if current_user.role != "seller":
         raise HTTPException(status_code=403, detail="Only sellers can create products")
-    
-    # Generate a unique filename to prevent overwriting existing files
+
     file_extension = image.filename.split(".")[-1]
     unique_filename = f"{uuid.uuid4()}.{file_extension}"
     file_location = f"uploads/{unique_filename}"
-    
-    # Save the file physically to the disk
+
     with open(file_location, "wb+") as file_object:
         shutil.copyfileobj(image.file, file_object)
-        
-    # Set the URL path to the newly saved image
+
     image_url = f"/uploads/{unique_filename}"
-    
+
     new_product = models.Product(
-        name=name, 
-        price=price, 
-        description=description, 
-        image_url=image_url, 
+        name=name,
+        make=make,
+        model=model,
+        year=year,
+        mileage=mileage,
+        fuel_type=fuel_type,
+        transmission=transmission,
+        price=price,
+        description=description,
+        image_url=image_url,
         owner_id=current_user.id
     )
-    
+
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
