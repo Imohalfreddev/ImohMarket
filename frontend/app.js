@@ -151,7 +151,8 @@ async function addProduct(e) {
     formData.append('description', document.getElementById('description').value);
     formData.append('image', document.getElementById('image_file').files[0]);
 
-    const res = await fetch(`${API_URL}/products/`, { 
+    // The trailing slash has been removed from the URL below
+    const res = await fetch(`${API_URL}/products`, { 
         method: 'POST', 
         headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {}, 
         body: formData 
