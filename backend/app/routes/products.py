@@ -73,3 +73,15 @@ def get_product(product_id: int, db: Session = Depends(database.get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
+@router.delete("/{product_id}")
+def delete_product(product_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(auth.get_current_user)):
+    """Allow a seller to delete their own product."""
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    if product.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this listing")
+    db.delete(product)
+    db.commit()
+    return {"message": "Listing deleted"}
