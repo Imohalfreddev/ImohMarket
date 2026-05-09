@@ -151,6 +151,20 @@ async function addProduct(e) {
     formData.append('description', document.getElementById('description').value);
     formData.append('image', document.getElementById('image_file').files[0]);
 
+    // FIXED: Removed the trailing slash from /products
+    const res = await fetch(`${API_URL}/products`, { 
+        method: 'POST', 
+        headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {}, 
+        body: formData 
+    });
+    
+    if (res.ok) { 
+        showToast('Vehicle listed in showroom!', 'success'); 
+        setTimeout(() => window.location.reload(), 1000); 
+    } else { 
+        showToast('Failed to post vehicle.', 'error'); 
+    }
+
     const res = await fetch(`${API_URL}/products/`, { 
         method: 'POST', 
         headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {}, 
