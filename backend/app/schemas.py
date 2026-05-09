@@ -15,16 +15,16 @@ class Token(BaseModel):
     role: str
 
 class ProductBase(BaseModel):
-    name: str
-    make: str
-    model: str
-    year: int
-    mileage: int
-    fuel_type: str
-    transmission: str
-    price: float
-    description: str
-    image_url: str
+    name: Optional[str] = None
+    make: Optional[str] = None
+    model: Optional[str] = None
+    year: Optional[int] = None
+    mileage: Optional[int] = None
+    fuel_type: Optional[str] = None
+    transmission: Optional[str] = None
+    price: Optional[float] = None
+    description: Optional[str] = None
+    image_url: Optional[str] = None
 
 class ProductCreate(ProductBase):
     pass
