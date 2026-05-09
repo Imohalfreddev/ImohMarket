@@ -147,23 +147,19 @@
     <script src="app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Load cart from localStorage
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = parseFloat(localStorage.getItem('cartTotal')) || 0;
             const summaryItems = document.getElementById('summary-items');
             const summaryTotal = document.getElementById('summary-total');
             const payAmount = document.getElementById('pay-amount');
-
-            let total = 0;
 
             if (cart.length === 0) {
                 summaryItems.innerHTML = '<p style="color: gray; font-size: 0.9rem;">No items in cart.</p>';
             } else {
                 cart.forEach(item => {
-                    const price = parseFloat(item.price) || 0;
-                    total += price;
                     const row = document.createElement('div');
                     row.className = 'summary-row';
-                    row.innerHTML = `<span>${item.name || item.title || 'Item'}</span><span>$${price.toLocaleString()}</span>`;
+                    row.innerHTML = `<span>${item.name}</span><span>$${parseFloat(item.price).toLocaleString()}</span>`;
                     summaryItems.appendChild(row);
                 });
             }
@@ -171,6 +167,14 @@
             summaryTotal.textContent = `$${total.toLocaleString()}`;
             payAmount.textContent = `— $${total.toLocaleString()}`;
         });
+
+        function processFinalCheckout(e) {
+            e.preventDefault();
+            document.getElementById('checkout-form').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            localStorage.removeItem('cart');
+            localStorage.removeItem('cartTotal');
+        }
     </script>
 </body>
 </html>

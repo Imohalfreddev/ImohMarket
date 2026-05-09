@@ -316,8 +316,18 @@ async function loadCart() {
             cartItems.innerHTML = '<p style="text-align:center; color:#64748b;">Your cart is empty. <a href="products.html">Browse vehicles</a></p>';
             cartTotal.innerText = '$0.00';
             document.getElementById('checkout-btn').style.display = 'none';
+            localStorage.removeItem('cart');
+            localStorage.removeItem('cartTotal');
             return;
         }
+
+        // Save cart to localStorage so checkout.html can read it
+        const cartForStorage = data.items.map(item => ({
+            name: `${item.product.year || ''} ${item.product.make || ''} ${item.product.model || ''}`,
+            price: item.product.price * item.quantity
+        }));
+        localStorage.setItem('cart', JSON.stringify(cartForStorage));
+        localStorage.setItem('cartTotal', data.total);
 
         cartItems.innerHTML = data.items.map(item => `
             <div style="display:flex; align-items:center; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border);">
