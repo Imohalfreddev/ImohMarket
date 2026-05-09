@@ -186,6 +186,82 @@ async function deleteProduct(productId) {
     }
 }
 
+async function editProduct(productId) {
+    const res = await fetch(`${API_URL}/products/${productId}`);
+    if (!res.ok) { showToast('Failed to load listing.', 'error'); return; }
+    const p = await res.json();
+
+    const modal = document.createElement('div');
+    modal.id = 'edit-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+    modal.innerHTML = `
+        <div style="background:var(--card-bg);border-radius:8px;padding:2rem;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;">
+            <h3 style="margin-bottom:1.5rem;">Edit Listing</h3>
+            <div class="form-group"><label>Listing Title</label><input id="edit-name" class="form-control" value="${p.name || ''}"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div class="form-group"><label>Make</label><input id="edit-make" class="form-control" value="${p.make || ''}"></div>
+                <div class="form-group"><label>Model</label><input id="edit-model" class="form-control" value="${p.model || ''}"></div>
+                <div class="form-group"><label>Year</label><input id="edit-year" type="number" class="form-control" value="${p.year || ''}"></div>
+                <div class="form-group"><label>Mileage (km)</label><input id="edit-mileage" type="number" class="form-control" value="${p.mileage || ''}"></div>
+                <div class="form-group"><label>Fuel Type</label>
+                    <select id="edit-fuel_type" class="form-control">
+                        <option ${p.fuel_type==='Petrol'?'selected':''}>Petrol</option>
+                        <option ${p.fuel_type==='Diesel'?'selected':''}>Diesel</option>
+                        <option ${p.fuel_type==='Electric'?'selected':''}>Electric</option>
+                        <option ${p.fuel_type==='Hybrid'?'selected':''}>Hybrid</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Transmission</label>
+                    <select id="edit-transmission" class="form-control">
+                        <option ${p.transmission==='Automatic'?'selected':''}>Automatic</option>
+                        <option ${p.transmission==='Manual'?'selected':''}>Manual</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label>Price ($)</label><input id="edit-price" type="number" step="0.01" class="form-control" value="${p.price || ''}"></div>
+            <div class="form-group"><label>Description</label><textarea id="edit-description" class="form-control" rows="3">${p.description || ''}</textarea></div>
+            <div class="form-group"><label>New Photo (optional)</label><input id="edit-image" type="file" class="form-control" accept="image/*"></div>
+            <div style="display:flex;gap:1rem;margin-top:1rem;">
+                <button class="btn" style="flex:1;" onclick="saveEdit(${productId})">Save Changes</button>
+                <button class="btn-outline" style="flex:1;" onclick="document.getElementById('edit-modal').remove()">Cancel</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function saveEdit(productId) {
+    const formData = new FormData();
+    formData.append('name', document.getElementById('edit-name').value);
+    formData.append('make', document.getElementById('edit-make').value);
+    formData.append('model', document.getElementById('edit-model').value);
+    formData.append('year', document.getElementById('edit-year').value);
+    formData.append('mileage', document.getElementById('edit-mileage').value);
+    formData.append('fuel_type', document.getElementById('edit-fuel_type').value);
+    formData.append('transmission', document.getElementById('edit-transmission').value);
+    formData.append('price', document.getElementById('edit-price').value);
+    formData.append('description', document.getElementById('edit-description').value);
+    const imageFile = document.getElementById('edit-image').files[0];
+    if (imageFile) formData.append('image', imageFile);
+
+    try {
+        const res = await fetch(`${API_URL}/products/${productId}`, {
+            method: 'PUT',
+            headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {},
+            body: formData
+        });
+        if (res.ok) {
+            showToast('Listing updated!', 'success');
+            document.getElementById('edit-modal').remove();
+            setTimeout(() => loadMyListings(), 500);
+        } else {
+            showToast('Failed to update listing.', 'error');
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
+    }
+}
+
 async function addToCart(productId) {
     if (!state.token) { showToast('Please log in as a buyer first.', 'error'); return; }
     if (state.role !== 'buyer') { showToast('Switch to buyer role to add to cart.', 'error'); return; }
@@ -329,6 +405,7 @@ async function loadSingleProduct() {
         detail.innerHTML = '<p>Failed to load product details.</p>';
     }
 }
+
 async function loadMyListings() {
     const container = document.getElementById('my-listings');
     if (!container) return;
@@ -351,6 +428,7 @@ async function loadMyListings() {
                 </div>
                 <div class="listing-card-actions">
                     <a href="product.html?id=${p.id}" class="btn-outline" style="padding: 0.4rem 1rem; font-size: 0.85rem; text-decoration: none;">View</a>
+                    <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="editProduct(${p.id})">Edit</button>
                     <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem; background: var(--danger); border-color: var(--danger);" onclick="deleteProduct(${p.id})">Delete</button>
                 </div>
             </div>
@@ -359,6 +437,7 @@ async function loadMyListings() {
         container.innerHTML = '<p>Failed to load listings. Please try again.</p>';
     }
 }
+
 // --- Dynamic Navigation Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const navAuth = document.getElementById('nav-auth');

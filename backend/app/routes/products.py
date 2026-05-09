@@ -73,7 +73,50 @@ def get_product(product_id: int, db: Session = Depends(database.get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+@router.put("/{product_id}", response_model=schemas.ProductResponse)
+def update_product(
+    product_id: int,
+    name: str = Form(...),
+    make: str = Form(...),
+    model: str = Form(...),
+    year: int = Form(...),
+    mileage: int = Form(...),
+    fuel_type: str = Form(...),
+    transmission: str = Form(...),
+    price: float = Form(...),
+    description: str = Form(...),
+    image: UploadFile = File(None),
+    db: Session = Depends(database.get_db),
+    current_user: models.User = Depends(auth.get_current_user)
+):
+    """Allow a seller to edit their own product."""
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    if product.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to edit this listing")
 
+    product.name = name
+    product.make = make
+    product.model = model
+    product.year = year
+    product.mileage = mileage
+    product.fuel_type = fuel_type
+    product.transmission = transmission
+    product.price = price
+    product.description = description
+
+    if image and image.filename:
+        file_extension = image.filename.split(".")[-1]
+        unique_filename = f"{uuid.uuid4()}.{file_extension}"
+        file_location = f"uploads/{unique_filename}"
+        with open(file_location, "wb+") as file_object:
+            shutil.copyfileobj(image.file, file_object)
+        product.image_url = f"/uploads/{unique_filename}"
+
+    db.commit()
+    db.refresh(product)
+    return product
 @router.delete("/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(auth.get_current_user)):
     """Allow a seller to delete their own product."""
