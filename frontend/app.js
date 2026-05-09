@@ -168,6 +168,44 @@ async function addProduct(e) {
     }
 }
 
+async function deleteProduct(productId) {
+    if (!confirm('Are you sure you want to delete this listing?')) return;
+    try {
+        const res = await fetch(`${API_URL}/products/${productId}`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+        if (res.ok) {
+            showToast('Listing deleted.', 'success');
+            setTimeout(() => window.location.href = 'seller-dashboard.html', 1000);
+        } else {
+            showToast('Failed to delete listing.', 'error');
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
+    }
+}
+
+async function addToCart(productId) {
+    if (!state.token) { showToast('Please log in as a buyer first.', 'error'); return; }
+    if (state.role !== 'buyer') { showToast('Switch to buyer role to add to cart.', 'error'); return; }
+    try {
+        const res = await fetch(`${API_URL}/cart/add`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify({ product_id: productId, quantity: 1 })
+        });
+        if (res.ok) {
+            showToast('Vehicle added to cart!', 'success');
+        } else {
+            const data = await res.json();
+            showToast(data.detail || 'Failed to add to cart.', 'error');
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
+    }
+}
+
 async function loadProducts() {
     try {
         const res = await fetch(`${API_URL}/products/`);
@@ -197,6 +235,39 @@ async function loadProducts() {
     } catch (error) {
         const grid = document.getElementById('product-grid');
         if (grid) grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Failed to load inventory. Please try again.</p>';
+    }
+}
+
+async function loadSingleProduct() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) return;
+    const detail = document.getElementById('product-detail');
+    try {
+        const res = await fetch(`${API_URL}/products/${id}`);
+        if (!res.ok) { detail.innerHTML = '<p>Product not found.</p>'; return; }
+        const p = await res.json();
+
+        const isSeller = state.role === 'seller';
+        const isBuyer = state.role === 'buyer';
+
+        detail.innerHTML = `
+            <img src="${getImageUrl(p.image_url)}" alt="${p.make || ''} ${p.model || ''}">
+            <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem;">${p.year || ''} ${p.make || ''} ${p.model || ''}</h1>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem;">$${p.price ? p.price.toLocaleString() : 'N/A'}</div>
+            <div class="product-meta">
+                <div class="meta-item"><span>Make</span><strong>${p.make || 'N/A'}</strong></div>
+                <div class="meta-item"><span>Model</span><strong>${p.model || 'N/A'}</strong></div>
+                <div class="meta-item"><span>Year</span><strong>${p.year || 'N/A'}</strong></div>
+                <div class="meta-item"><span>Mileage</span><strong>${p.mileage ? p.mileage.toLocaleString() : 'N/A'} km</strong></div>
+                <div class="meta-item"><span>Fuel Type</span><strong>${p.fuel_type || 'N/A'}</strong></div>
+                <div class="meta-item"><span>Transmission</span><strong>${p.transmission || 'N/A'}</strong></div>
+            </div>
+            <p style="line-height: 1.7; margin-bottom: 1.5rem;">${p.description || ''}</p>
+            ${isBuyer ? `<button class="btn" style="width: 100%; padding: 0.85rem;" onclick="addToCart(${p.id})">Add to Cart</button>` : ''}
+            ${isSeller ? `<button class="btn" style="width: 100%; padding: 0.85rem; background: var(--danger); border-color: var(--danger);" onclick="deleteProduct(${p.id})">Delete Listing</button>` : ''}
+        `;
+    } catch (error) {
+        detail.innerHTML = '<p>Failed to load product details.</p>';
     }
 }
 
