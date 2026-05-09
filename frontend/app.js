@@ -329,7 +329,36 @@ async function loadSingleProduct() {
         detail.innerHTML = '<p>Failed to load product details.</p>';
     }
 }
+async function loadMyListings() {
+    const container = document.getElementById('my-listings');
+    if (!container) return;
+    try {
+        const res = await fetch(`${API_URL}/products/me`, { headers: getHeaders() });
+        if (!res.ok) { container.innerHTML = '<p>Failed to load listings.</p>'; return; }
+        const products = await res.json();
 
+        if (products.length === 0) {
+            container.innerHTML = '<p style="color:#64748b;">You have no active listings. Post one above!</p>';
+            return;
+        }
+
+        container.innerHTML = products.map(p => `
+            <div class="listing-card">
+                <img src="${getImageUrl(p.image_url)}" alt="${p.make || ''} ${p.model || ''}">
+                <div class="listing-card-info">
+                    <h4>${p.year || ''} ${p.make || ''} ${p.model || ''}</h4>
+                    <p>$${p.price ? p.price.toLocaleString() : 'N/A'} &bull; ${p.mileage ? p.mileage.toLocaleString() : 'N/A'} km &bull; ${p.transmission || 'N/A'}</p>
+                </div>
+                <div class="listing-card-actions">
+                    <a href="product.html?id=${p.id}" class="btn-outline" style="padding: 0.4rem 1rem; font-size: 0.85rem; text-decoration: none;">View</a>
+                    <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem; background: var(--danger); border-color: var(--danger);" onclick="deleteProduct(${p.id})">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        container.innerHTML = '<p>Failed to load listings. Please try again.</p>';
+    }
+}
 // --- Dynamic Navigation Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const navAuth = document.getElementById('nav-auth');
