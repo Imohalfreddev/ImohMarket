@@ -16,12 +16,8 @@ app = FastAPI(title="ImohMarket API")
 # Enable CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://imoh-market.vercel.app",  # Your live Vercel frontend
-        "http://localhost:5500",           # Local testing
-        "http://127.0.0.1:5500"            # Local testing alternative
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

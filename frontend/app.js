@@ -151,14 +151,21 @@ async function addProduct(e) {
     formData.append('description', document.getElementById('description').value);
     formData.append('image', document.getElementById('image_file').files[0]);
 
-    const res = await fetch(`${API_URL}/products/`, { 
-        method: 'POST', 
-        headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {}, 
-        body: formData 
-    });
-    
-    if (res.ok) { showToast('Vehicle listed in showroom!', 'success'); setTimeout(() => window.location.reload(), 1000); } 
-    else { showToast('Failed to post vehicle.', 'error'); }
+    try {
+        const res = await fetch(`${API_URL}/products/`, { 
+            method: 'POST', 
+            headers: state.token ? { 'Authorization': `Bearer ${state.token}` } : {}, 
+            body: formData 
+        });
+        if (res.ok) { 
+            showToast('Vehicle listed in showroom!', 'success'); 
+            setTimeout(() => window.location.reload(), 1000); 
+        } else { 
+            showToast('Failed to post vehicle.', 'error'); 
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
+    }
 }
 
 async function loadProducts() {
@@ -192,7 +199,6 @@ async function loadProducts() {
 document.addEventListener('DOMContentLoaded', () => {
     const navAuth = document.getElementById('nav-auth');
     if (navAuth) {
-        // Keeps the buttons in a neat row
         navAuth.style.display = 'flex';
         navAuth.style.gap = '0.5rem';
         navAuth.style.alignItems = 'center';
