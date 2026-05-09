@@ -65,7 +65,7 @@ const getHeaders = () => ({
     ...(state.token ? { 'Authorization': `Bearer ${state.token}` } : {}) 
 });
 
-const getImageUrl = (url) => url.startsWith('http') ? url : `${API_URL}${url}`;
+const getImageUrl = (url) => url && url.startsWith('http') ? url : `${API_URL}${url || ''}`;
 
 // --- Auth API ---
 async function login(e) {
@@ -169,30 +169,35 @@ async function addProduct(e) {
 }
 
 async function loadProducts() {
-    const res = await fetch(`${API_URL}/products`); 
-    const products = await res.json();
-    const grid = document.getElementById('product-grid');
-    if (!grid) return;
+    try {
+        const res = await fetch(`${API_URL}/products/`);
+        const products = await res.json();
+        const grid = document.getElementById('product-grid');
+        if (!grid) return;
 
-    if (products.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No vehicles currently in inventory.</p>';
-        return;
-    }
+        if (products.length === 0) {
+            grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No vehicles currently in inventory.</p>';
+            return;
+        }
 
-    grid.innerHTML = products.map(p => `
-        <div class="card">
-            <img src="${getImageUrl(p.image_url)}" alt="${p.make} ${p.model}" onclick="window.location.href='product.html?id=${p.id}'" style="cursor: pointer; height: 200px; object-fit: cover; width: 100%;">
-            <div class="card-content">
-                <h3 class="card-title">${p.year} ${p.make} ${p.model}</h3>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0;">
-                    <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">${p.mileage.toLocaleString()} km</span>
-                    <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">${p.transmission}</span>
+        grid.innerHTML = products.map(p => `
+            <div class="card">
+                <img src="${getImageUrl(p.image_url)}" alt="${p.make || ''} ${p.model || ''}" onclick="window.location.href='product.html?id=${p.id}'" style="cursor: pointer; height: 200px; object-fit: cover; width: 100%;">
+                <div class="card-content">
+                    <h3 class="card-title">${p.year || ''} ${p.make || ''} ${p.model || ''}</h3>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0;">
+                        <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">${p.mileage ? p.mileage.toLocaleString() : 'N/A'} km</span>
+                        <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">${p.transmission || 'N/A'}</span>
+                    </div>
+                    <div class="card-price" style="font-weight: bold; font-size: 1.25rem; color: var(--primary);">$${p.price ? p.price.toLocaleString() : 'N/A'}</div>
+                    <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='product.html?id=${p.id}'">View Inventory Detail</button>
                 </div>
-                <div class="card-price" style="font-weight: bold; font-size: 1.25rem; color: var(--primary);">$${p.price.toLocaleString()}</div>
-                <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='product.html?id=${p.id}'">View Inventory Detail</button>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    } catch (error) {
+        const grid = document.getElementById('product-grid');
+        if (grid) grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Failed to load inventory. Please try again.</p>';
+    }
 }
 
 // --- Dynamic Navigation Logic ---
