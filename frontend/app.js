@@ -206,6 +206,65 @@ async function addToCart(productId) {
     }
 }
 
+async function updateCartItem(itemId, action) {
+    try {
+        const res = await fetch(`${API_URL}/cart/item/${itemId}?action=${action}`, {
+            method: 'PUT',
+            headers: getHeaders()
+        });
+        if (res.ok) {
+            loadCart();
+        } else {
+            showToast('Failed to update cart.', 'error');
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
+    }
+}
+
+async function loadCart() {
+    if (!state.token) {
+        window.location.href = 'login.html';
+        return;
+    }
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    if (!cartItems) return;
+
+    try {
+        const res = await fetch(`${API_URL}/cart/`, { headers: getHeaders() });
+        if (!res.ok) { cartItems.innerHTML = '<p>Failed to load cart.</p>'; return; }
+        const data = await res.json();
+
+        if (!data.items || data.items.length === 0) {
+            cartItems.innerHTML = '<p style="text-align:center; color:#64748b;">Your cart is empty. <a href="products.html">Browse vehicles</a></p>';
+            cartTotal.innerText = '$0.00';
+            document.getElementById('checkout-btn').style.display = 'none';
+            return;
+        }
+
+        cartItems.innerHTML = data.items.map(item => `
+            <div style="display:flex; align-items:center; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border);">
+                <img src="${getImageUrl(item.product.image_url)}" style="width:100px; height:70px; object-fit:cover; border-radius:6px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600;">${item.product.year || ''} ${item.product.make || ''} ${item.product.model || ''}</div>
+                    <div style="color:#64748b; font-size:0.9rem;">$${item.product.price ? item.product.price.toLocaleString() : 'N/A'}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button class="btn-outline" style="padding:0.25rem 0.6rem;" onclick="updateCartItem(${item.id}, 'decrease')">−</button>
+                    <span style="min-width:24px; text-align:center;">${item.quantity}</span>
+                    <button class="btn-outline" style="padding:0.25rem 0.6rem;" onclick="updateCartItem(${item.id}, 'increase')">+</button>
+                </div>
+                <div style="font-weight:bold; min-width:80px; text-align:right;">$${(item.product.price * item.quantity).toLocaleString()}</div>
+            </div>
+        `).join('');
+
+        cartTotal.innerText = `$${data.total.toLocaleString()}`;
+    } catch (error) {
+        cartItems.innerHTML = '<p>Failed to load cart. Please try again.</p>';
+    }
+}
+
 async function loadProducts() {
     try {
         const res = await fetch(`${API_URL}/products/`);
