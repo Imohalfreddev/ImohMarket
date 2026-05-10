@@ -55,9 +55,14 @@ const setAuth = (token, role) => {
     state.role = role; 
 };
 
-const logout = () => { 
-    localStorage.clear(); 
-    window.location.href = 'index.html'; 
+const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('cartTotal');
+    state.token = null;
+    state.role = null;
+    window.location.href = 'index.html';
 };
 
 const getHeaders = () => ({ 
@@ -127,12 +132,18 @@ async function signup(e) {
 }
 
 async function switchRole() {
-    const res = await fetch(`${API_URL}/users/switch-role`, { method: 'POST', headers: getHeaders() });
-    if (res.ok) {
-        const data = await res.json();
-        setAuth(data.access_token, data.role);
-        showToast(`Switched to ${data.role} profile!`, "success");
-        setTimeout(() => window.location.href = data.role === 'seller' ? 'seller-dashboard.html' : 'buyer-dashboard.html', 1000);
+    try {
+        const res = await fetch(`${API_URL}/users/switch-role`, { method: 'POST', headers: getHeaders() });
+        if (res.ok) {
+            const data = await res.json();
+            setAuth(data.access_token, data.role);
+            showToast(`Switched to ${data.role} profile!`, "success");
+            setTimeout(() => window.location.href = data.role === 'seller' ? 'seller-dashboard.html' : 'buyer-dashboard.html', 1000);
+        } else {
+            showToast('Failed to switch role.', 'error');
+        }
+    } catch (error) {
+        showToast('Network Error. Cannot reach server.', 'error');
     }
 }
 
@@ -321,7 +332,6 @@ async function loadCart() {
             return;
         }
 
-        // Save cart to localStorage so checkout.html can read it
         const cartForStorage = data.items.map(item => ({
             name: `${item.product.year || ''} ${item.product.make || ''} ${item.product.model || ''}`,
             price: item.product.price * item.quantity
@@ -459,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.token) {
             const dashLink = state.role === 'seller' ? 'seller-dashboard.html' : 'buyer-dashboard.html';
             const switchText = state.role === 'buyer' ? 'Switch to Seller' : 'Switch to Buyer';
-            
+
             navAuth.innerHTML = `
                 <a href="products.html" class="btn-outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.9rem;">Showroom</a> 
                 <a href="${dashLink}" class="btn-outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.9rem;">Dashboard</a> 
