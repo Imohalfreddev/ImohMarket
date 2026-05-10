@@ -204,6 +204,7 @@ textarea.form-control {
     background: transparent;
     cursor: pointer;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 /* FIX: ensure hover still works */
