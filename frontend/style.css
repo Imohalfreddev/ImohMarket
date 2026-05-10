@@ -180,6 +180,7 @@ textarea.form-control {
     text-decoration: none;
     font-size: 0.95rem;
     white-space: nowrap;
+    flex-shrink: 0; /* FIX: Prevents button from being squished on small screens */
 }
 
 .btn:hover {
@@ -205,6 +206,7 @@ textarea.form-control {
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;
+    flex-shrink: 0; /* FIX: Prevents button from being squished on small screens */
 }
 
 /* FIX: ensure hover still works */
