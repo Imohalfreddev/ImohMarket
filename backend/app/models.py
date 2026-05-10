@@ -10,7 +10,7 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    role = Column(String) 
+    role = Column(String)
 
     products = relationship("Product", back_populates="owner")
     cart = relationship("Cart", back_populates="user", uselist=False)
@@ -19,16 +19,18 @@ class User(Base):
 class Product(Base):
     __tablename__ = "products"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True) # Used as the Listing Title
-    make = Column(String)            # e.g., Toyota
-    model = Column(String)           # e.g., Camry
-    year = Column(Integer)           # e.g., 2022
-    mileage = Column(Integer)        # e.g., 15000
-    fuel_type = Column(String)       # e.g., Petrol, Hybrid, Electric
-    transmission = Column(String)    # e.g., Automatic, Manual
+    name = Column(String, index=True)
+    make = Column(String)
+    model = Column(String)
+    year = Column(Integer)
+    mileage = Column(Integer)
+    fuel_type = Column(String)
+    transmission = Column(String)
     price = Column(Float)
     description = Column(String)
     image_url = Column(String)
+    image_url_2 = Column(String, nullable=True)
+    image_url_3 = Column(String, nullable=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="products")

@@ -1,12 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from .database import engine, Base
 from .routes import auth, products, cart, orders, users
-import os
-
-# Create an uploads directory if it doesn't already exist
-os.makedirs("uploads", exist_ok=True)
 
 # Initialize Database Tables
 Base.metadata.create_all(bind=engine)
@@ -21,9 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Serve the uploaded files so the frontend can display them
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Include all the route modules
 app.include_router(auth.router)

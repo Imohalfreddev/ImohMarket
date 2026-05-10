@@ -28,10 +28,15 @@ def add_to_cart(item: schemas.CartItemAdd, db: Session = Depends(database.get_db
     """Add a product to the cart or increase its quantity if it already exists."""
     if current_user.role != "buyer":
         raise HTTPException(status_code=403, detail="Only buyers can add to cart")
-        
+
+    # Auto-create cart if buyer doesn't have one yet
     cart = db.query(models.Cart).filter(models.Cart.user_id == current_user.id).first()
-    
-    # Check if the product is already in the cart
+    if not cart:
+        cart = models.Cart(user_id=current_user.id)
+        db.add(cart)
+        db.commit()
+        db.refresh(cart)
+
     existing_item = db.query(models.CartItem).filter(models.CartItem.cart_id == cart.id, models.CartItem.product_id == item.product_id).first()
     if existing_item:
         existing_item.quantity += item.quantity
@@ -44,8 +49,7 @@ def add_to_cart(item: schemas.CartItemAdd, db: Session = Depends(database.get_db
 
 @router.put("/item/{item_id}")
 def update_cart_item(item_id: int, action: str, db: Session = Depends(database.get_db), current_user: models.User = Depends(auth.get_current_user)):
-    """Increase or decrease the quantity of a specific item in the cart. Action must be 'increase' or 'decrease'."""
-    # Ensure the item belongs to the current user's cart
+    """Increase or decrease the quantity of a specific item in the cart."""
     cart_item = db.query(models.CartItem).join(models.Cart).filter(
         models.CartItem.id == item_id, 
         models.Cart.user_id == current_user.id
@@ -58,7 +62,6 @@ def update_cart_item(item_id: int, action: str, db: Session = Depends(database.g
         cart_item.quantity += 1
     elif action == "decrease":
         cart_item.quantity -= 1
-        # If quantity hits zero, remove the item entirely
         if cart_item.quantity <= 0:
             db.delete(cart_item)
     else:
