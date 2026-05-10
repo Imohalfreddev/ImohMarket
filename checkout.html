@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <title>Checkout</title>
+    <style>
+        .checkout-wrapper {
+            padding: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .checkout-summary {
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .checkout-summary h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border, #eee);
+            font-size: 0.95rem;
+        }
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary, #2563eb);
+            margin-top: 0.5rem;
+        }
+        .payment-form {
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+        .payment-form h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border, #ddd);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .pay-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+        #success-message {
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--success, green);
+            border-radius: 12px;
+            padding: 2rem 1.2rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="nav-brand">ImohMarket</a>
+            <div class="nav-links">
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size: 1.2rem;">🌓</button>
+                <div id="nav-auth" style="display:inline-flex; gap:1rem;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="checkout-wrapper">
+        <h2 style="margin-bottom: 1.5rem;">Checkout Securely</h2>
+
+        <!-- Order Summary -->
+        <div class="checkout-summary">
+            <h3>Order Summary</h3>
+            <div id="summary-items"></div>
+            <div class="summary-row">
+                <span>Total</span>
+                <span id="summary-total">$0.00</span>
+            </div>
+        </div>
+
+        <!-- Payment Form -->
+        <div id="checkout-form" class="payment-form">
+            <form onsubmit="processFinalCheckout(event)">
+                <h3>Payment Details (Simulation)</h3>
+                <div class="form-group">
+                    <label>Card Name</label>
+                    <input type="text" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+                <div class="card-grid">
+                    <div class="form-group">
+                        <label>Expiry</label>
+                        <input type="text" class="form-control" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CVC</label>
+                        <input type="text" class="form-control" placeholder="123" maxlength="3" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn pay-btn">Confirm & Pay <span id="pay-amount"></span></button>
+            </form>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-message" class="hidden">
+            <h3 style="color: var(--success, green); font-size: 1.5rem;">Payment Successful!</h3>
+            <p style="margin: 1rem 0;">Your order has been placed.</p>
+            <a href="buyer-dashboard.html" class="btn">Return to Dashboard</a>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = parseFloat(localStorage.getItem('cartTotal')) || 0;
+            const summaryItems = document.getElementById('summary-items');
+            const summaryTotal = document.getElementById('summary-total');
+            const payAmount = document.getElementById('pay-amount');
+
+            if (cart.length === 0) {
+                summaryItems.innerHTML = '<p style="color: gray; font-size: 0.9rem;">No items in cart.</p>';
+            } else {
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'summary-row';
+                    row.innerHTML = `<span>${item.name}</span><span>$${parseFloat(item.price).toLocaleString()}</span>`;
+                    summaryItems.appendChild(row);
+                });
+            }
+
+            summaryTotal.textContent = `$${total.toLocaleString()}`;
+            payAmount.textContent = `— $${total.toLocaleString()}`;
+        });
+
+        function processFinalCheckout(e) {
+            e.preventDefault();
+            document.getElementById('checkout-form').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            localStorage.removeItem('cart');
+            localStorage.removeItem('cartTotal');
+        }
+    </script>
+</body>
+</html>
