@@ -24,6 +24,14 @@
     padding: 0;
     font-family: 'Inter', system-ui, sans-serif;
     transition: background-color 0.3s, color 0.3s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input, textarea, select {
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 html, body {
@@ -286,9 +294,9 @@ textarea.form-control { resize: vertical; min-height: 80px; }
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         gap: 0.3rem;
-        scrollbar-width: none; /* hide scrollbar on Firefox */
+        scrollbar-width: none;
     }
-    .nav-content::-webkit-scrollbar { display: none; } /* hide scrollbar on Chrome/Safari */
+    .nav-content::-webkit-scrollbar { display: none; }
     .nav-brand { font-size: 1.1rem; flex-shrink: 0; }
     .nav-links {
         flex-wrap: nowrap;
