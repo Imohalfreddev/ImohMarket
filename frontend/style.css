@@ -90,7 +90,9 @@ nav {
     gap: 0.5rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
+.nav-content::-webkit-scrollbar { display: none; }
 .nav-brand {
     font-size: 1.4rem;
     font-weight: 700;
@@ -99,6 +101,7 @@ nav {
     outline: none;
     border: none;
     flex-shrink: 0;
+    white-space: nowrap;
 }
 .nav-links {
     display: flex;
@@ -285,67 +288,91 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 @media (max-width: 480px) {
     html, body { overflow-x: hidden; overflow-y: auto; }
 
-    /* Container */
     .container { padding: 0 0.75rem; }
 
-    /* Navbar - nowrap so Logout never disappears */
     .nav-content {
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        gap: 0.3rem;
+        gap: 0.25rem;
         scrollbar-width: none;
+        padding: 0 0.5rem;
     }
     .nav-content::-webkit-scrollbar { display: none; }
-    .nav-brand { font-size: 1.1rem; flex-shrink: 0; }
+
+    .nav-brand {
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }
+
     .nav-links {
         flex-wrap: nowrap;
         flex-shrink: 0;
-        gap: 0.3rem;
+        gap: 0.25rem;
     }
+
     .nav-links a,
     .nav-links .btn,
-    .nav-links .btn-outline {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.5rem;
+    .nav-links .btn-outline,
+    #nav-auth a,
+    #nav-auth .btn,
+    #nav-auth .btn-outline {
+        font-size: 0.7rem !important;
+        padding: 0.25rem 0.4rem !important;
         white-space: nowrap;
+        border-width: 1px !important;
+        border-radius: 4px;
     }
 
-    /* Auth */
     .auth-container { padding: 1.25rem; }
-    .form-control { font-size: 0.95rem; }
+    .form-control { font-size: 16px; }
 
-    /* Hero */
-    .hero-content { padding: 40px 12px; }
-    .hero-buttons { flex-direction: column; align-items: stretch; }
-    .hero-btn { width: 100%; }
+    .hero-content { padding: 36px 12px; }
+    .hero-title { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+    .hero-subtitle { font-size: clamp(0.85rem, 3vw, 1rem); margin-bottom: 1.5rem; }
+    .hero-buttons { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+    .hero-btn { width: 100%; text-align: center; padding: 0.75rem; }
 
-    /* Grid - 2 columns on all phones */
     .two-col { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
 
-    /* Buttons */
-    .btn { font-size: 0.85rem; padding: 0.65rem 0.9rem; }
-    .btn-outline { font-size: 0.85rem; padding: 0.45rem 0.7rem; }
+    .btn { font-size: 0.82rem; padding: 0.6rem 0.75rem; }
+    .btn-outline { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
 
-    /* Cards */
-    .card img { height: 130px; }
-    .card-content { padding: 0.75rem; }
-    .card-title { font-size: 0.85rem; }
-    .card-price { font-size: 1rem; margin-bottom: 0.75rem; }
+    .card img { height: 120px; }
+    .card-content { padding: 0.65rem; }
+    .card-title { font-size: 0.8rem; }
+    .card-price { font-size: 0.95rem; margin-bottom: 0.6rem; }
 
-    /* Seller listing cards */
     .listing-card { flex-direction: column; align-items: flex-start; }
     .listing-card img { width: 100%; height: 150px; }
     .listing-card-actions { width: 100%; justify-content: stretch; }
     .listing-card-actions a,
-    .listing-card-actions button { flex: 1; text-align: center; font-size: 0.85rem; }
+    .listing-card-actions button { flex: 1; text-align: center; font-size: 0.82rem; }
 
-    /* Toast */
     #toast-container { bottom: 10px; right: 0.75rem; left: 0.75rem; }
     .toast { min-width: unset; width: 100%; }
 
-    /* Dashboard */
     .dashboard-wrapper { padding: 0.75rem 0.5rem; }
     .dashboard-container { padding: 1rem; }
+}
+
+/* ── Small mobile (max 360px) ── */
+@media (max-width: 360px) {
+    .nav-brand { font-size: 0.85rem; }
+
+    .nav-links a,
+    .nav-links .btn,
+    .nav-links .btn-outline,
+    #nav-auth a,
+    #nav-auth .btn,
+    #nav-auth .btn-outline {
+        font-size: 0.65rem !important;
+        padding: 0.2rem 0.35rem !important;
+    }
+
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    .card img { height: 100px; }
+    .card-title { font-size: 0.75rem; }
+    .card-price { font-size: 0.85rem; }
 }
