@@ -201,16 +201,19 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 /* ── Cards / Grid ── */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* CHANGED: auto-fill to auto-fit to force full width stretching */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.5rem;
+    width: 100%; /* Ensure container fills parent */
 }
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
+    width: 100%; /* Force card to stretch to grid column width */
 }
-.card img { width: 100%; height: 200px; object-fit: cover; cursor: pointer; }
+.card img { width: 100%; height: 200px; object-fit: cover; cursor: pointer; display: block; }
 .card-content { padding: 1.25rem; }
 .card-title { font-size: 1.1rem; margin-bottom: 0.5rem; cursor: pointer; }
 .card-price { font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem; }
@@ -253,7 +256,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .hero-btn { padding: 0.85rem 1.75rem; font-size: 1rem; width: auto; }
 
 /* ── Two Col ── */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.two-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; width: 100%; }
 
 /* ── Seller Listing Cards ── */
 .listing-card {
@@ -266,6 +269,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     margin-bottom: 1rem;
     background: var(--card-bg);
     flex-wrap: wrap;
+    width: 100%;
 }
 .listing-card img { width: 100px; height: 70px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
 .listing-card-info { flex: 1; min-width: 120px; }
@@ -278,8 +282,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 
 /* ── Tablet (max 768px) ── */
 @media (max-width: 768px) {
-    .two-col { grid-template-columns: 1fr 1fr; }
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .two-col { grid-template-columns: repeat(2, 1fr); width: 100%; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; width: 100%; }
     .hero-content { padding: 60px 16px; }
     .auth-container { padding: 1.5rem; }
 }
@@ -288,7 +292,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 @media (max-width: 480px) {
     html, body { overflow-x: hidden; overflow-y: auto; }
 
-    .container { padding: 0 0.75rem; }
+    .container { padding: 0 0.75rem; width: 100%; }
 
     .nav-content {
         flex-wrap: nowrap;
@@ -333,8 +337,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .hero-buttons { flex-direction: column; align-items: stretch; gap: 0.6rem; }
     .hero-btn { width: 100%; text-align: center; padding: 0.75rem; }
 
-    .two-col { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+    .two-col { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; width: 100%; }
 
     .btn { font-size: 0.82rem; padding: 0.6rem 0.75rem; }
     .btn-outline { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
@@ -344,7 +348,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .card-title { font-size: 0.8rem; }
     .card-price { font-size: 0.95rem; margin-bottom: 0.6rem; }
 
-    .listing-card { flex-direction: column; align-items: flex-start; }
+    .listing-card { flex-direction: column; align-items: flex-start; width: 100%; }
     .listing-card img { width: 100%; height: 150px; }
     .listing-card-actions { width: 100%; justify-content: stretch; }
     .listing-card-actions a,
@@ -354,7 +358,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .toast { min-width: unset; width: 100%; }
 
     .dashboard-wrapper { padding: 0.75rem 0.5rem; }
-    .dashboard-container { padding: 1rem; }
+    .dashboard-container { padding: 1rem; width: 100%; }
 }
 
 /* ── Small mobile (max 360px) ── */
@@ -371,7 +375,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
         padding: 0.2rem 0.35rem !important;
     }
 
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; }
     .card img { height: 100px; }
     .card-title { font-size: 0.75rem; }
     .card-price { font-size: 0.85rem; }
