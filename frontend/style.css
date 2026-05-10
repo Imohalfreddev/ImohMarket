@@ -207,6 +207,7 @@ textarea.form-control {
     text-decoration: none;
 }
 
+/* FIX: ensure hover still works */
 .btn-outline:hover {
     background: var(--primary);
     color: white;
@@ -275,59 +276,29 @@ textarea.form-control {
 }
 
 /* Tablet */
-@media (max-width:768px) {
+@media (max-width:768px){
 
     .grid {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .nav-links .btn,
-    .nav-links .btn-outline {
-        font-size: .78rem;
-        padding: .45rem .7rem;
-    }
-
-    /* Wrap navbar on tablets and below so all buttons stay visible */
-    .nav-content {
-        flex-wrap: wrap;
-        justify-content: center;
-        overflow-x: visible;
-    }
-    .nav-brand {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 0.25rem;
-    }
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
+    .nav-links .btn-outline{
+        font-size:.78rem;
+        padding:.45rem .7rem;
     }
 }
 
-/* Mobile – ensure logout & all buttons show, no horizontal scroll */
-@media (max-width:480px) {
+/* Mobile FIX (logout visibility fix added ONLY here) */
+@media (max-width:480px){
 
-    .nav-brand {
-        font-size: .85rem;
+    .nav-brand{
+        font-size:.85rem;
     }
 
-    .nav-content {
-        flex-wrap: wrap;
-        justify-content: center;
-        overflow-x: visible;
-    }
-    .nav-brand {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 0.25rem;
-    }
-
-    .nav-links {
-        gap: .15rem;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
+    .nav-links{
+        gap:.15rem;
+        flex-wrap: wrap; /* FIX: prevents logout disappearing */
     }
 
     .nav-links a,
@@ -335,28 +306,28 @@ textarea.form-control {
     .nav-links .btn-outline,
     #nav-auth a,
     #nav-auth .btn,
-    #nav-auth .btn-outline {
-        font-size: .60rem !important;
-        padding: .25rem .38rem !important;
-        transform: scale(.94);
-        white-space: nowrap;
+    #nav-auth .btn-outline{
+        font-size:.60rem !important;
+        padding:.25rem .38rem !important;
+        transform:scale(.94);
+        white-space:nowrap;
     }
 
-    .grid {
-        grid-template-columns: repeat(2,1fr);
-        gap: .6rem;
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:.6rem;
     }
 
-    .card img {
-        height: 120px;
+    .card img{
+        height:120px;
     }
 }
 
 /* Small Phones */
-@media (max-width:390px) {
+@media (max-width:390px){
 
-    .nav-brand {
-        font-size: .72rem;
+    .nav-brand{
+        font-size:.72rem;
     }
 
     .nav-links a,
@@ -364,22 +335,22 @@ textarea.form-control {
     .nav-links .btn-outline,
     #nav-auth a,
     #nav-auth .btn,
-    #nav-auth .btn-outline {
-        font-size: .50rem !important;
-        padding: .18rem .28rem !important;
-        transform: scale(.88);
+    #nav-auth .btn-outline{
+        font-size:.50rem !important;
+        padding:.18rem .28rem !important;
+        transform:scale(.88);
     }
 }
 
 /* Smartwatch */
-@media (max-width:320px) {
+@media (max-width:320px){
 
-    .nav-brand {
-        font-size: .55rem;
+    .nav-brand{
+        font-size:.55rem;
     }
 
-    .nav-links {
-        gap: .08rem;
+    .nav-links{
+        gap:.08rem;
     }
 
     .nav-links a,
@@ -387,9 +358,9 @@ textarea.form-control {
     .nav-links .btn-outline,
     #nav-auth a,
     #nav-auth .btn,
-    #nav-auth .btn-outline {
-        font-size: .36rem !important;
-        padding: .10rem .18rem !important;
-        transform: scale(.80);
+    #nav-auth .btn-outline{
+        font-size:.36rem !important;
+        padding:.10rem .18rem !important;
+        transform:scale(.80);
     }
 }
