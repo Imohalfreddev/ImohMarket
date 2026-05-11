@@ -60,6 +60,11 @@
             gap: 0.5rem;
             flex-shrink: 0;
         }
+        .photo-hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
         @media (max-width: 600px) {
             .dashboard-wrapper { padding: 1rem 0.5rem; }
             .dashboard-container { padding: 1.2rem 1rem; border-radius: 6px; }
@@ -139,10 +144,24 @@
                     <label>Detailed Description</label>
                     <textarea id="description" class="form-control" rows="4" required></textarea>
                 </div>
+
+                <!-- 3 Image Uploads -->
                 <div class="form-group">
-                    <label>Vehicle Photo</label>
+                    <label>Main Photo <span style="color:var(--danger);">*</span></label>
                     <input type="file" id="image_file" class="form-control" accept="image/*" required>
+                    <p class="photo-hint">Required — front or best angle</p>
                 </div>
+                <div class="form-group">
+                    <label>Photo 2 <span style="color:#64748b;">(optional)</span></label>
+                    <input type="file" id="image_file_2" class="form-control" accept="image/*">
+                    <p class="photo-hint">Interior or side view</p>
+                </div>
+                <div class="form-group">
+                    <label>Photo 3 <span style="color:#64748b;">(optional)</span></label>
+                    <input type="file" id="image_file_3" class="form-control" accept="image/*">
+                    <p class="photo-hint">Rear or engine view</p>
+                </div>
+
                 <button type="submit" class="btn" style="margin-top: 1rem; width: 100%;">Post Listing</button>
             </form>
         </div>
